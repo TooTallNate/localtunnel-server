@@ -14,7 +14,6 @@ var uid = require('uid-safe');
 var debug = require('debug')('localtunnel-server');
 
 var Proxy = require('./proxy');
-var rand_id = require('./lib/rand_id');
 
 var PRODUCTION = process.env.NODE_ENV === 'production';
 
