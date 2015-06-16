@@ -26,12 +26,12 @@ var stats = {
 };
 
 function create_id() {
-  // 7 bytes ends up returning a 10 char UID
-  return uid.sync(7).toLowerCase();
+    // 7 bytes ends up returning a 10 char UID
+    return uid.sync(7).toLowerCase();
 }
 
 function is_id(id) {
-  return /^[a-z0-9_-]{10}$/.test(id);
+    return /^[a-z0-9_-]{10}$/.test(id);
 }
 
 function maybe_bounce(req, res, bounce) {
