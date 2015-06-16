@@ -26,7 +26,8 @@ var stats = {
 };
 
 function create_id() {
-  return uid.sync(10).toLowerCase();
+  // 7 bytes ends up returning a 10 char UID
+  return uid.sync(7).toLowerCase();
 }
 
 function is_id(id) {
