@@ -112,7 +112,7 @@ function maybe_bounce(req, res, bounce) {
 }
 
 function new_client(id, opt, cb) {
-    debug('making new client with id %s', req_id);
+    debug('making new client with id %s', id);
 
     // can't ask for id already is use
     // TODO check this new id again
