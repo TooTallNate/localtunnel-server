@@ -198,12 +198,14 @@ module.exports = function(opt) {
         var req_id = create_id();
         new_client(req_id, opt, function(err, info) {
             if (err) {
-                res.statusCode = 500;
-                return res.end(err.message);
+                return next(err);
             }
 
-            var url = schema + '://' + req_id + '.' + req.headers.host;
-            info.url = url;
+            if (opt.relative) {
+              info.url = schema + '://' req.headers.host + '/' + req_id + '/';
+            } else {
+              info.url = schema + '://' + req_id + '.' + req.headers.host;
+            }
             res.json(info);
         });
     });
@@ -227,8 +229,11 @@ module.exports = function(opt) {
                 return next(err);
             }
 
-            var url = schema + '://' + req_id + '.' + req.headers.host;
-            info.url = url;
+            if (opt.relative) {
+              info.url = schema + '://' req.headers.host + '/' + req_id + '/';
+            } else {
+              info.url = schema + '://' + req_id + '.' + req.headers.host;
+            }
             res.json(info);
         });
 
