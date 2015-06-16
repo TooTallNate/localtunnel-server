@@ -29,6 +29,10 @@ function create_id() {
   return uid.sync(10).toLowerCase();
 }
 
+function is_id(id) {
+  return /^[a-z0-9_-]{10}$/.test(id);
+}
+
 function maybe_bounce(req, res, bounce) {
     // without a hostname, we won't know who the request is for
     var hostname = req.headers.host;
@@ -38,6 +42,12 @@ function maybe_bounce(req, res, bounce) {
 
     var subdomain = tldjs.getSubdomain(hostname);
     if (!subdomain) {
+        return false;
+    }
+
+    // `getSubdomain()` returns multiple parts for sub-subdomains
+    subdomain = subdomain.split('.')[0];
+    if (!is_id(subdomain)) {
         return false;
     }
 
