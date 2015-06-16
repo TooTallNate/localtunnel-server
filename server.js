@@ -10,6 +10,7 @@ var browserkthx = require('browserkthx');
 var tldjs = require('tldjs');
 var on_finished = require('on-finished');
 var favicon = require('serve-favicon');
+var uid = require('uid-safe');
 var debug = require('debug')('localtunnel-server');
 
 var Proxy = require('./proxy');
@@ -24,6 +25,10 @@ var clients = Object.create(null);
 var stats = {
     tunnels: 0
 };
+
+function create_id() {
+  return uid.sync(10).toLowerCase();
+}
 
 function maybe_bounce(req, res, bounce) {
     // without a hostname, we won't know who the request is for
@@ -108,11 +113,12 @@ function maybe_bounce(req, res, bounce) {
 }
 
 function new_client(id, opt, cb) {
+    debug('making new client with id %s', req_id);
 
     // can't ask for id already is use
     // TODO check this new id again
     if (clients[id]) {
-        id = rand_id();
+        id = create_id();
     }
 
     var popt = {
@@ -179,8 +185,7 @@ module.exports = function(opt) {
             return next();
         }
 
-        var req_id = rand_id();
-        debug('making new client with id %s', req_id);
+        var req_id = create_id();
         new_client(req_id, opt, function(err, info) {
             if (err) {
                 res.statusCode = 500;
@@ -207,7 +212,6 @@ module.exports = function(opt) {
             return next(err);
         }
 
-        debug('making new client with id %s', req_id);
         new_client(req_id, opt, function(err, info) {
             if (err) {
                 return next(err);
