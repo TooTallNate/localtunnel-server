@@ -128,6 +128,7 @@ function new_client(id, opt, cb) {
     // can't ask for id already is use
     // TODO check this new id again
     if (clients[id]) {
+        debug('requested ID %o already exists, creating new UID', id);
         id = create_id();
     }
 
