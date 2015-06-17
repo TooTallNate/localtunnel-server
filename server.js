@@ -122,8 +122,8 @@ function maybe_bounce(req, res, bounce) {
     return true;
 }
 
-function new_client(id, opt, cb) {
-    debug('making new client with id %s', id);
+function new_client(id, relative, opt, cb) {
+    debug('making new client with id=%o, relative=%o, opts=%o', id, relative, opts);
 
     // can't ask for id already is use
     // TODO check this new id again
@@ -197,7 +197,8 @@ module.exports = function(opt) {
         }
 
         var req_id = create_id();
-        new_client(req_id, opt, function(err, info) {
+        var relative = req.query.relative || false;
+        new_client(req_id, relative, opt, function(err, info) {
             if (err) {
                 return next(err);
             }
@@ -225,7 +226,8 @@ module.exports = function(opt) {
             return next(err);
         }
 
-        new_client(req_id, opt, function(err, info) {
+        var relative = req.query.relative || false;
+        new_client(req_id, relative, opt, function(err, info) {
             if (err) {
                 return next(err);
             }
