@@ -30,10 +30,6 @@ function create_id() {
     return uid.sync(7).toLowerCase();
 }
 
-function is_id(id) {
-    return /^[a-z0-9_-]{10}$/.test(id);
-}
-
 function maybe_bounce(req, res, bounce) {
     // without a hostname, we won't know who the request is for
     var hostname = req.headers.host;
@@ -41,27 +37,10 @@ function maybe_bounce(req, res, bounce) {
         return false;
     }
 
-    var subdomain = tldjs.getSubdomain(hostname);
-    if (!subdomain) {
-        return false;
-    }
-
-    // `getSubdomain()` returns multiple parts for sub-subdomains
-    subdomain = subdomain.split('.')[0];
-    if (!is_id(subdomain)) {
-        return false;
-    }
-
-    var client_id = subdomain;
-    var client = clients[client_id];
-
-    // no such subdomain
-    // we use 502 error to the client to signify we can't service the request
+    // no such client for `hostname`, so just serve from the main `app`
+    var client = clients[hostname];
     if (!client) {
-        res.statusCode = 502;
-        res.end('localtunnel error: no active client for \'' + client_id + '\'');
-        req.connection.destroy();
-        return true;
+        return false;
     }
 
     // flag if we already finished before we get a socket
