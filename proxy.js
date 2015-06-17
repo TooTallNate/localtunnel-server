@@ -11,10 +11,12 @@ var Proxy = function(opt, cb) {
 
     var self = this;
 
+    var id = opt.id;
+    self.id = id;
+    self.relative = opt.relative;
     self.sockets = [];
     self.waiting = [];
 
-    var id = opt.id;
 
     // default max is 10
     var max_tcp_sockets = opt.max_tcp_sockets || 10;

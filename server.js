@@ -134,6 +134,7 @@ function new_client(id, relative, opt, cb) {
 
     var popt = {
         id: id,
+        relative: relative,
         max_tcp_sockets: opt.max_tcp_sockets
     };
 
@@ -154,6 +155,10 @@ function new_client(id, relative, opt, cb) {
         --stats.tunnels;
         delete clients[id];
     });
+
+    client.relative = relative;
+
+    return client;
 }
 
 module.exports = function(opt) {
@@ -203,7 +208,7 @@ module.exports = function(opt) {
                 return next(err);
             }
 
-            if (opt.relative) {
+            if (relative) {
               info.url = schema + '://' + req.headers.host + '/' + req_id;
             } else {
               info.url = schema + '://' + req_id + '.' + req.headers.host;
@@ -232,7 +237,7 @@ module.exports = function(opt) {
                 return next(err);
             }
 
-            if (opt.relative) {
+            if (relative) {
               info.url = schema + '://' + req.headers.host + '/' + req_id;
             } else {
               info.url = schema + '://' + req_id + '.' + req.headers.host;
