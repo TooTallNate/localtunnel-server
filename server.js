@@ -203,7 +203,7 @@ module.exports = function(opt) {
             }
 
             if (opt.relative) {
-              info.url = schema + '://' req.headers.host + '/' + req_id + '/';
+              info.url = schema + '://' + req.headers.host + '/' + req_id;
             } else {
               info.url = schema + '://' + req_id + '.' + req.headers.host;
             }
@@ -231,7 +231,7 @@ module.exports = function(opt) {
             }
 
             if (opt.relative) {
-              info.url = schema + '://' req.headers.host + '/' + req_id + '/';
+              info.url = schema + '://' + req.headers.host + '/' + req_id;
             } else {
               info.url = schema + '://' + req_id + '.' + req.headers.host;
             }
